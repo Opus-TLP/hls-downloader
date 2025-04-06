@@ -33,6 +33,5 @@ const makeConfig = (inputFile, outputFile, external, runnable) => ({
 });
 
 export default [
-    makeConfig("src/index.ts", packageJson.main, [], false),
-    makeConfig("src/cli.ts", packageJson.bin["hls-downloader"], ["./index"], true),
+    makeConfig("src/index.ts", packageJson.main, [], false)
 ];
