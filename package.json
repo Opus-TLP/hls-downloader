@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Opus-TLP/hls-downloader"
+    "url": "git+https://github.com/Opus-TLP/hls-downloader.git"
   },
   "author": "Spark-NF <spark_ps@hotmail.fr>",
   "license": "Apache-2.0",
