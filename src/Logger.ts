@@ -1,4 +1,4 @@
-import { IConfig } from "./Config";
+import { IConfig } from "./Config.js";
 
 export interface ILogger {
     log: (...params: any) => void;
@@ -10,7 +10,7 @@ export function buildLogger(logger: IConfig["logger"]): ILogger {
         return console;
     }
     if (logger === null) {
-        return buildLogger(() => { /* no-op */ });
+        return buildLogger(() => {/* no-op */});
     }
     if (typeof logger === "function") {
         return {

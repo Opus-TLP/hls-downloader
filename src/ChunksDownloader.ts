@@ -1,8 +1,8 @@
 import * as m3u8 from "m3u8-parser";
 import PQueue from "p-queue";
 import * as path from "path";
-import { download, get, HttpHeaders } from "./http";
-import { ILogger } from "./Logger";
+import { download, get, HttpHeaders } from "./http.js";
+import { ILogger } from "./Logger.js";
 
 export abstract class ChunksDownloader {
     protected queue: PQueue;
@@ -47,18 +47,29 @@ export abstract class ChunksDownloader {
     protected async downloadSegment(segmentUrl: string): Promise<void> {
         // Get filename from URL
         const question = segmentUrl.indexOf("?");
-        let filename = question > 0 ? segmentUrl.substr(0, question) : segmentUrl;
+        let filename = question > 0
+            ? segmentUrl.substr(0, question)
+            : segmentUrl;
         const slash = filename.lastIndexOf("/");
         filename = filename.substr(slash + 1);
 
         // Download file
-        await this.downloadWithRetries(segmentUrl, path.join(this.segmentDirectory, filename), this.maxRetries);
+        await this.downloadWithRetries(
+            segmentUrl,
+            path.join(this.segmentDirectory, filename),
+            this.maxRetries,
+        );
         this.logger.log("Received:", segmentUrl);
     }
 
-    private async downloadWithRetries(url: string, file: string, maxRetries: number, currentTry = 1): Promise<void> {
+    private async downloadWithRetries(
+        url: string,
+        file: string,
+        maxRetries: number,
+        currentTry = 1,
+    ): Promise<void> {
         if (currentTry > maxRetries) {
-            throw new Error('too many retries - download failed')
+            throw new Error("too many retries - download failed");
         }
 
         try {

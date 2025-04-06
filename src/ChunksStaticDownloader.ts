@@ -1,7 +1,7 @@
 import { URL } from "url";
-import { ChunksDownloader } from "./ChunksDownloader";
-import { HttpHeaders } from "./http";
-import { ILogger } from "./Logger";
+import { ChunksDownloader } from "./ChunksDownloader.js";
+import { HttpHeaders } from "./http.js";
+import { ILogger } from "./Logger.js";
 
 export class ChunksStaticDownloader extends ChunksDownloader {
     constructor(
@@ -12,12 +12,21 @@ export class ChunksStaticDownloader extends ChunksDownloader {
         segmentDirectory: string,
         httpHeaders?: HttpHeaders,
     ) {
-        super(logger, playlistUrl, concurrency, maxRetries, segmentDirectory, httpHeaders);
+        super(
+            logger,
+            playlistUrl,
+            concurrency,
+            maxRetries,
+            segmentDirectory,
+            httpHeaders,
+        );
     }
 
     protected async refreshPlayList(): Promise<void> {
         const playlist = await this.loadPlaylist();
-        const segments = playlist.segments!.map((s) => new URL(s.uri, this.playlistUrl).href);
+        const segments = playlist.segments!.map((s) =>
+            new URL(s.uri, this.playlistUrl).href
+        );
 
         this.logger.log(`Queueing ${segments.length} segment(s)`);
         for (const uri of segments) {

@@ -1,7 +1,7 @@
 import { URL } from "url";
-import { ChunksDownloader } from "./ChunksDownloader";
-import { HttpHeaders } from "./http";
-import { ILogger } from "./Logger";
+import { ChunksDownloader } from "./ChunksDownloader.js";
+import { HttpHeaders } from "./http.js";
+import { ILogger } from "./Logger.js";
 
 export class ChunksLiveDownloader extends ChunksDownloader {
     private lastSegment?: string;
@@ -20,16 +20,29 @@ export class ChunksLiveDownloader extends ChunksDownloader {
         private playlistRefreshInterval: number = 5,
         httpHeaders?: HttpHeaders,
     ) {
-        super(logger, playlistUrl, concurrency, maxRetries, segmentDirectory, httpHeaders);
+        super(
+            logger,
+            playlistUrl,
+            concurrency,
+            maxRetries,
+            segmentDirectory,
+            httpHeaders,
+        );
     }
 
     protected async refreshPlayList(): Promise<void> {
         const playlist = await this.loadPlaylist();
 
-        const interval = playlist.targetDuration || this.playlistRefreshInterval;
-        const segments = playlist.segments!.map((s) => new URL(s.uri, this.playlistUrl).href);
+        const interval = playlist.targetDuration ||
+            this.playlistRefreshInterval;
+        const segments = playlist.segments!.map((s) =>
+            new URL(s.uri, this.playlistUrl).href
+        );
 
-        this.refreshHandle = setTimeout(() => this.refreshPlayList(), interval * 1000);
+        this.refreshHandle = setTimeout(
+            () => this.refreshPlayList(),
+            interval * 1000,
+        );
 
         let toLoad: string[] = [];
         if (!this.lastSegment) {
@@ -57,7 +70,10 @@ export class ChunksLiveDownloader extends ChunksDownloader {
         if (this.timeoutHandle) {
             clearTimeout(this.timeoutHandle);
         }
-        this.timeoutHandle = setTimeout(() => this.timeout(), this.timeoutDuration * 1000);
+        this.timeoutHandle = setTimeout(
+            () => this.timeout(),
+            this.timeoutDuration * 1000,
+        );
     }
 
     private timeout(): void {

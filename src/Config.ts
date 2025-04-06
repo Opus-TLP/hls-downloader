@@ -1,5 +1,5 @@
-import { HttpHeaders } from "./http";
-import { ILogger } from "./Logger";
+import { HttpHeaders } from "./http.js";
+import { ILogger } from "./Logger.js";
 
 export interface IConfig {
     mergeUsingFfmpeg?: boolean;

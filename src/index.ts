@@ -1,13 +1,14 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { ChunksLiveDownloader } from "./ChunksLiveDownloader";
-import { ChunksStaticDownloader } from "./ChunksStaticDownloader";
-import { IConfig as IIConfig } from "./Config";
-import { mergeChunks as mergeChunksFfmpeg, transmuxTsToMp4 } from "./ffmpeg";
-import { mergeFiles as mergeChunksStream } from "./stream";
+import { ChunksLiveDownloader } from "./ChunksLiveDownloader.js";
+import { ChunksStaticDownloader } from "./ChunksStaticDownloader.js";
+import { IConfig as IIConfig } from "./Config.js";
+import { mergeChunks as mergeChunksFfmpeg, transmuxTsToMp4 } from "./ffmpeg.js";
+import { mergeFiles as mergeChunksStream } from "./stream.js";
 import { StreamChooser } from "./StreamChooser.js";
-import { buildLogger, ILogger } from "./Logger";
+import { buildLogger, ILogger } from "./Logger.js";
+import { ChunksDownloader } from "./ChunksDownloader.js";
 
 export type IConfig = IIConfig;
 
@@ -51,7 +52,7 @@ export async function download(config: IConfig): Promise<void> {
     }
 
     // Start download
-    const chunksDownloader = config.live
+    const chunksDownloader: ChunksDownloader = config.live
         ? new ChunksLiveDownloader(
             logger,
             playlistUrl,
