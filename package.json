@@ -10,10 +10,8 @@
     "hls-downloader": "dist/cli.js"
   },
   "scripts": {
-    "lint": "eslint -c .eslintrc.js --ext ts src test",
     "build": "tsc",
-    "publish": "npm publish --access public",
-    "test": "jest --coverage"
+    "publish": "npm publish --access public"
   },
   "repository": {
     "type": "git",
